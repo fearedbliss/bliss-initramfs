@@ -44,9 +44,9 @@
   to automatically decrypt your drive. This was done in order to reduce the amount of passphrases
   needed to be entered when grub decrypts a / partition that has /boot in it.
   You can use the "enc_key_ignore" if your initramfs has a keyfile but you would like to not use it.
-- More refactoring in order to improve decryption execution flow
-- Removed unused /etc/zfs directory
-- Improved the Tools.SafeCopy function
+- More refactoring in order to improve decryption execution flow.
+- Removed unused /etc/zfs directory.
+- Improved the Tools.SafeCopy function.
 
 6.3.0
 ------------
@@ -71,8 +71,8 @@
              correct path as well. (Mixed case [DeV] wouldn't though ;P).
 
 - Some bash files will be maintained by the initramfs rather than copying them from the system.
-- Minor refactoring
-- Minor message improvements
+- Minor refactoring.
+- Minor message improvements.
 
 6.2.2
 ------------
@@ -105,17 +105,17 @@
 
   Link: http://www.freedesktop.org/wiki/Software/systemd/InitrdInterface/
 
-- Minor message cleanups
-- Updated/slightly restructured USAGE's kernel options section
+- Minor message cleanups.
+- Updated/slightly restructured USAGE's kernel options section.
 
 6.1.6
 ------------
-- Relicensed back to the Simplified BSD License
+- Relicensed back to the Simplified BSD License.
 
 6.1.5
 ------------
-- Relicensed to the GPLv2 (Only GPLv2, Not GPLv2+)
-- Included some usage information on btrfs and firmware support
+- Relicensed to the GPLv2 (Only GPLv2, Not GPLv2+).
+- Included some usage information on btrfs and firmware support.
 - Drives that will be decrypted will now be displayed starting with a 1 rather than a 0.
 
 6.1.4
@@ -126,7 +126,7 @@
 
 6.1.3
 ------------
-- Relicensed to the Simplified BSD License
+- Relicensed to the Simplified BSD License.
 - 'dmsetup' will only be copied when LUKS is used.
 
 6.1.2
@@ -135,15 +135,15 @@
 
 6.1.1
 ------------
-- Relicensed to the GPLv2 (Only GPLv2, Not GPLv2+)
+- Relicensed to the GPLv2 (Only GPLv2, Not GPLv2+).
 - The "starting udev version ###" message will no longer appear
   when using new versions of udev.
 
 6.1.0
 ---------
-- The core engine has gone through a complete refactoring as well
-- "Successfully decrypted: <>" message will no longer be displayed
-- udev support is now optional
+- The core engine has gone through a complete refactoring as well.
+- "Successfully decrypted: <>" message will no longer be displayed.
+- udev support is now optional.
 - You can now specify just the remaining portion (folder/firmware) of the firmware file
   excluding the "/lib/firmware/" in the Firmware hook.
 - Added "/sbin/udevd" to the list of places where the application will try to find the udev binary.
@@ -151,8 +151,8 @@
 - Fixed a bug where the keyfile drive wouldn't umount when passing the UUID of the keyfile to umount command.
 - Fixed a bug where if the keyfile drive didn't umount successfully, you would still receive a "successfully
   unmounted message" right after the failed to umount message.
-- Fixed renmants of old "die" calls to the new "Fail" call in the 'init' file which could have caused bugs
-- Re-added 2 second delay when importing zpool without cachefile. The delay is to give the user enough time
+- Fixed renmants of old "die" calls to the new "Fail" call in the 'init' file which could have caused bugs.
+- Re-added 2 second delay when importing zpool without cachefile. The delay is to give the user enough time.
   to read the message about making sure to remake their initramfs to include their new zpool.cache.
 - Fixed a bug where using PARTUUID would actually use UUID.
 - When unmount devices before switching into root, it will now lazy umount rather than normal umount
@@ -160,7 +160,7 @@
 
 6.0.1
 ---------
-- Added "LABEL=" to the list of supported boot namings
+- Added "LABEL=" to the list of supported boot namings.
 
 6.0.0
 ---------
@@ -170,19 +170,19 @@
 - Increased default encryption loop tries from 3 to 5.
 - Added the "enc_tries" boot parameter. You can use this to adjust the max tries that cryptsetup will give you.
   Example: enc_tries=10
-- One init file rather than init and libs/common.sh
+- One init file rather than init and libs/common.sh.
 - Major refactoring was done. The init file was ran through shellcheck.net's analyzer.
-- New command line parsing algorithm
+- New command line parsing algorithm.
 - Just to mention it again.. UUIDs support has been finally implemented! You can use the UUIDs for both multiple root drives,
   and also your usb drive if you have your keyfile in there :D.
 - I'm no longer supporting using the initramfs to decrypt your swap via enc_drives. The initramfs is only supposed to
   get your root filesystem up and delegate everything else to the userspace. The proper way to decrypt your drive is to use
   /etc/crypttab. Doing this properly also fixes the issue where systemd would hang for 1 minute and 30 seconds because it
   tried to decrypt a swap partition/waited for an event that was already performed.
-- The following directories are now copied into the initramfs: /etc/modprobe.d/, /etc/udev/, /lib/udev
+- The following directories are now copied into the initramfs: /etc/modprobe.d/, /etc/udev/ and /lib/udev.
 - You can now copy either all of your firmware files or only the needed firmware by modifying hooks/firmware.py.
 - "Copying modules" message will only appear when modules are actually going to be copied.
-- Removed 2 second delay when 'refresh' is used for zpool.cache
+- Removed 2 second delay when 'refresh' is used for zpool.cache.
 
 5.3.0
 ---------
@@ -191,48 +191,48 @@
 
 5.2.0
 ---------
-- Now supports encrypting/decrypting your swap partition (just append it to the "enc_drives" variable)
+- Now supports encrypting/decrypting your swap partition (just append it to the "enc_drives" variable).
 - "enc_root" has been renamed to "enc_drives" and is now an optional parameter.
   Meaning that if you don't pass it in, the program will ask you for it.
 - No longer supports multiple individual encryption passphrases. The application will use the one passphrase
   you provided to automatically decrypt all your drives, or it will use your keyfile to automatically decrypt
   them all.
-- You are now able to refresh the "available drives" list that the key/key_gpg phases generate when the "redetect" flag is set
-- The application will now ask you for the enc_type if you didn't explictly declare it
-- The initramfs will no longer set the hostid value. It will default to the patched upstream ZoL code (all zeroes)
-- Updated the boot design a bit
-- The initramfs will now not only display /dev/sd? devices, but also /dev/vd? devices (In case you are making drives under KVM)
+- You are now able to refresh the "available drives" list that the key/key_gpg phases generate when the "redetect" flag is set.
+- The application will now ask you for the enc_type if you didn't explictly declare it.
+- The initramfs will no longer set the hostid value. It will default to the patched upstream ZoL code (all zeroes).
+- Updated the boot design a bit.
+- The initramfs will now not only display /dev/sd? devices, but also /dev/vd? devices (In case you are making drives under KVM).
 - Some of the "key_gpg" parts were broken. This has now been fixed.
-- Fixed a bug where the decryption loop would only let you try twice rather than three times
-- Improved the "decrypt_drives" algorithm
-- Fixed a bug where the key drive file wasn't being unmounted if you were using "key" as your enc_type
-- Decreased delay for the zfs refresh zpool.cache message from 3 to 2
+- Fixed a bug where the decryption loop would only let you try twice rather than three times.
+- Improved the "decrypt_drives" algorithm.
+- Fixed a bug where the key drive file wasn't being unmounted if you were using "key" as your enc_type.
+- Decreased delay for the zfs refresh zpool.cache message from 3 to 2.
 - The available drives will only be detected and shown if you didn't set your enc_key_drive. This speeds things up a bit.
 
 5.1.0
 ---------
 - All support not relating to ZFS or a Normal boot has been removed. There are better
-  initramfs applications out there for those use cases (LVM, LVM on RAID, etc)
-- Added a commented "dm-crypt" to the addons.py to facilitate the user to enable encryption
+  initramfs applications out there for those use cases (LVM, LVM on RAID, etc).
+- Added a commented "dm-crypt" to the addons.py to facilitate the user to enable encryption.
   support (when their encryption support is compiled as a module)
   rather than built into the kernel).
-- Improved comments in some places
+- Improved comments in some places.
 
 5.0.0
 ---------
 - The application has been refactored. Smaller, faster, and cleaner.
 - The application has been relicensed back to the Mozilla Public License 2.0.
-- Improved error checking
-- Improved program flow
-- Improved parameter passing
-- Improved dependency detection
-- Visual improvements, including the removal of unneeded messages
-- Supports passing the init to launch with the "init" flag. Example: init=/sbin/blahblah
+- Improved error checking.
+- Improved program flow.
+- Improved parameter passing.
+- Improved dependency detection.
+- Visual improvements, including the removal of unneeded messages.
+- Supports passing the init to launch with the "init" flag. Example: init=/sbin/blahblah.
 
 4.1.2
 ---------
 - Relicensed to the more permissive, Apache License 2.0
-- Changed interpreter from '#/usr/bin/env python' to '#/usr/bin/python3'.
+- Changed interpreter from '#!/usr/bin/env python' to '#!/usr/bin/python3'.
   This is a symlink to the system's python 3.X interpreter. Thus even if the user has python 2.X
   set in 'eselect python list', the program will still work.
 
@@ -242,22 +242,22 @@
   at the time of creation if it finds one.
 - The hostid of the generating system will be stored in /etc/hostid on the
   initramfs.
-- 'refresh' option has been added so that if your initramfs has a stale
+- 'refresh' option has been added so that if your initramfs has a stale.
   zpool.cache and you need to boot, you can use it to ignore that cachefile
   and automatically install a clean zpool.cache into your system.
 - util-linux programs, zsplat, ztest, zstreamdump, zpios, zinject, zhack
   have been removed.
-- Fixed a bug with single user mode
+- Fixed a bug with single user mode.
 
 4.1.0
 ---------
-- The application can now be ran from any directory
-- The application has been redesigned so that it's execution is cleaner
-- Fixed a bug where 'lmodules' wasn't being set correctly
+- The application can now be run from any directory.
+- The application has been redesigned so that it's execution is cleaner.
+- Fixed a bug where 'lmodules' wasn't being set correctly.
 - The application will generate a 16 digit random number temporary directory,
-  in /tmp to minimize folder/file collisions (i.e: /tmp/1786-2475-3902-4380/)
+  in /tmp to minimize folder/file collisions (i.e: /tmp/1786-2475-3902-4380/).
 - The application has been changed from procedural to object oriented.
-- Fixed a minor bug where the err_mod_dexi() wasnt being found
+- Fixed a minor bug where the err_mod_dexi() wasnt being found.
 - Other nice improvements that I can't remember...
 
 4.0.3
@@ -268,7 +268,7 @@
 4.0.2
 ---------
 - Fixed a bug where parameters passed to the kernel including a "=" weren't
-  being parsed correctly (ex: options="subvol=root")
+  being parsed correctly (ex: options="subvol=root").
 
 4.0.1
 ---------
@@ -282,13 +282,13 @@
 4.0.0
 ---------
 - Added the ability to pass mount "options" for '/' via initramfs.
-- Major redesign of application. New functions written for copying, etc
-- Refactoring was done all around the application
-- Fixed a bug where modules in the "addon_mods" list weren't being loaded
-- Fixed a bug where job control wasn't working properly
-- Application renamed from 'createInit' to 'mkinitrd'
-- Limit 80 columns on all files, switched to ts=4, bs=4 sts=4, noet for styling
-- Updated "USAGE" file a bit
+- Major redesign of application. New functions written for copying, etc.
+- Refactoring was done all around the application.
+- Fixed a bug where modules in the "addon_mods" list weren't being loaded.
+- Fixed a bug where job control wasn't working properly.
+- Application renamed from 'createInit' to 'mkinitrd'.
+- Limit 80 columns on all files, switched to ts=4, bs=4 sts=4, noet for styling.
+- Updated "USAGE" file a bit.
 - Gentoo support has been removed. Only Funtoo will be supported.
 
 3.0.2
@@ -301,7 +301,7 @@
 3.0.1
 ---------
 - The application checks to see if all the modules in the list exist
-  in the given kernel directory
+  in the given kernel directory.
 
 - Aliases have been created to the 'shutdown -f' and 'reboot -f' commands in initrd.
   Now you can use their equivalents without -f directly.
@@ -313,7 +313,7 @@
 
 - mdadm was outputting benign error messages about exclusive mapfile. This is now hidden.
 
-- All man pages have been removed from the initramfs
+- All man pages have been removed from the initramfs.
 
 - The luks 'veritysetup' program is now included.
 
@@ -335,7 +335,7 @@ Minor Changes:
 Major Changes:
 - The initramfs will now always copy it's zpool.cache to the rootfs. This prevents the rootfs
   from becoming out of sync with the stuff that the initramfs was working with.
-- 'su' - single user mode performes a complete chroot with functional /dev, /proc, /sys
+- 'su' - single user mode performes a complete chroot with functional /dev, /proc and /sys.
 
 Minor Changes:
 - Fixed a bug where the initramfs would only get bz2 compressed man pages.
@@ -363,31 +363,31 @@ Major Changes:
 ---------
 
 Major Changes:
-- Relicensed back to MPLv2
-- Removed ability to have zpool.cache inside the initramfs (Too many problems)
+- Relicensed back to MPLv2.
+- Removed ability to have zpool.cache inside the initramfs (Too many problems).
 
 Minor Changes:
-- UI changes were made. Spacing and some rewording
+- UI changes were made. Spacing and some rewording.
 
 2.0.1
 ---------
 
 Major Changes:
-- Relicensed to the GPLv2 (Only the GPLv2, not v1, not v3, not v39232, only GPLv2)
+- Relicensed to the GPLv2 (Only the GPLv2, not v1, not v3, not v39232, only GPLv2).
 
 Minor Changes:
-- Made instructions more clearer in the USAGE file
+- Made instructions more clearer in the USAGE file.
 
 2.0.0
 ---------
 
 Major Changes:
-- Completely rewrote the code so that it's cleaner and smaller
+- Completely rewrote the code so that it's cleaner and smaller.
 - Removed "Slax Bundle" creation option. This application will strictly be for creating
   an initramfs.
 
 Minor Changes:
-- Code is now using bash style if statements ([[ ]])
+- Code is now using bash style if statements ([[ ]]).
 
 1.8.8
 ---------
@@ -399,14 +399,14 @@ Major Changes:
   to gather the modules if the modules were rebuilt but dependency information wasn't updated yet.
 
 Minor Changes:
-- MPLv2 License is now in the COPYING file
-- Added LICENSES folder to include licenses for compliance (for busybox)
+- MPLv2 License is now in the COPYING file.
+- Added LICENSES folder to include licenses for compliance (for busybox).
 - Fixed a bug where grep was saying it didn't know about it's parameters.
-- Removed 'nano' from the ebuild
+- Removed 'nano' from the ebuild.
 - Fixed a bug where the program would try to build the initramfs if you tried to make it
   with a null assigned kernel (in the "Please enter a kernel" step).
-- Cleaned up some code and added get_dlist() function
-- Removed "-o, -v" parameters and 'HELP' file
+- Cleaned up some code and added get_dlist() function.
+- Removed "-o, -v" parameters and 'HELP' file.
 
 1.8.7.1
 ---------
@@ -420,8 +420,8 @@ Minor Changes:
 ---------
 - Added dynamic detection of base binaries. Might need to do this for all binaries in the future.
   * Reason for this is that sometimes Funtoo and Gentoo store core files in different locations.
-- Added support for passing the keyfile as a kernel parameter (enc_key, enc_key_drive)
-- Simplified the encrypted process
+- Added support for passing the keyfile as a kernel parameter (enc_key, enc_key_drive).
+- Simplified the encrypted process.
 
 1.8.5
 ---------
@@ -435,47 +435,47 @@ Minor Changes:
 
 Major Changes:
 - Initramfs now uses bash instead of busybox's default shell (ash).
-- Kernel loading mechanism has been switched from busybox's kernel stuff to kmod
-- Added ability to use keyfile with luks (enc_type=pass, key, or key_gpg)
-- Added nano, kmod, and gpg to the initramfs
+- Kernel loading mechanism has been switched from busybox's kernel stuff to kmod.
+- Added ability to use keyfile with luks (enc_type=pass, key, or key_gpg).
+- Added nano, kmod, and gpg to the initramfs.
 - Modules can now be added automatically with full dependencies. This means that
   you can say "I want to use nouveau, zfs, and another driver" and the creator will
   automagically get every module that that module needs in order for it to work.
 
 Minor Changes:
-- Reduced sleep time from 5 to 4 in refresh_cache function for files/resources/generic.sh
-- Made the modules loading function smaller in files/resources/generic.sh
-- Transitioning over to equal signs from Strict POSIX to normal bash "=" to "=="
-- Transitioning over if functions to use -o or -a rather than:   ] && [   ] || [
-- Bash colors are now added
-- You can now decide whether or not you want to copy your zpool cache
+- Reduced sleep time from 5 to 4 in refresh_cache function for files/resources/generic.sh.
+- Made the modules loading function smaller in files/resources/generic.sh.
+- Transitioning over to equal signs from Strict POSIX to normal bash "=" to "==".
+- Transitioning over if functions to use -o or -a rather than: ] && [   ] || [.
+- Bash colors are now added.
+- You can now decide whether or not you want to copy your zpool cache.
 - The initramfs will automatically make all the busybox nodes in /bin before packing.
 - Now using bash style arrays for the luks devices function.
-- Prints out the luks devices nicely at boot
+- Prints out the luks devices nicely at boot.
 
 1.8.3
 ---------
-- Fixed a benign bug that printed out that the rpool didn't exist
+- Fixed a benign bug that printed out that the rpool didn't exist.
 - Switched from creating SRMs (System Rescue Modules) to SBs (SLAX Bundles).
   System Rescue CD is no longer used for this creator. SLAX will now be used.
-- Fixed the title colors so that they are also consistent with different shells
+- Fixed the title colors so that they are also consistent with different shells.
 - Added the "plugins/depmod" directory. You can use this directory to place gathered "modules.*" files.
   Read the README in that directory for more information.
 
 1.8.2
 ---------
-- Relicensed back to MPLv2
-- Now the initramfs will unlock multiple encrypted devices before mounting the zfs pool
-  * Instructions can be found in the USAGE file
+- Relicensed back to MPLv2.
+- Now the initramfs will unlock multiple encrypted devices before mounting the zfs pool.
+  * Instructions can be found in the USAGE file.
 
 1.8.1
 ---------
 - Fixed a bug where the initramfs wouldn't work at boot (kernel panic)
   because the initramfs wasn't packaging the files in the correct directory
   structure.
-- Continued to improve application flow
-- All variables have been renamed so that they don't have the "_" prefix
-- Made the code more elegant in some areas
+- Continued to improve application flow.
+- All variables have been renamed so that they don't have the "_" prefix.
+- Made the code more elegant in some areas.
 
 1.8.0
 ---------
@@ -498,7 +498,7 @@ Minor Changes:
 
 1.7.1
 ---------
-- Relicensed from the MPLv2 to the Simplified BSD License
+- Relicensed from the MPLv2 to the Simplified BSD License.
 
 1.7.0
 ---------
@@ -506,13 +506,13 @@ Minor Changes:
   This is a really bad su mode though. Use it if you forgot to
   change your password after installation.
 - Adds support to recreate the zpool.cache from within the initramfs
-  (via 'refresh' boot parameter)
+  (via 'refresh' boot parameter).
 - Removed some old code that wasn't being used anymore.
 - Added a few more functions to consolidate stuff.
-- The version of the creator that the initramfs was made with will be displayed at boot
+- The version of the creator that the initramfs was made with will be displayed at boot.
 - Fixed bug where when asking for help via parameters (./createInit -h), it was
   pointing to the wrong location.
-- Sourcing files is now done via relative path rather than using $(pwd)
+- Sourcing files is now done via relative path rather than using $(pwd).
 
 1.6.9
 ---------
@@ -538,9 +538,9 @@ Minor Changes:
 
 1.6.5
 ---------
-- Added function that cleans up initramfs and srm directory structure
-- Updated to support 0.6.0_rc14
-- squashfs-tools is no longer required if you just want to make an initramfs
+- Added function that cleans up initramfs and srm directory structure.
+- Updated to support 0.6.0_rc14.
+- squashfs-tools is no longer required if you just want to make an initramfs.
 - udev rules are now working. This means you can make a swap partition and use it
   via /dev/zvol/<pool_name>/<swap_name> immediately from inside the sysresccd.
 
@@ -552,10 +552,10 @@ Minor Changes:
   be copied.
 - sys-fs/squashfs-tools must be installed on your system.
 - Some functions have been consolidated.
-- Restructured a bit how files are located and copied
-- Normal Boot has been removed
+- Restructured a bit how files are located and copied.
+- Normal Boot has been removed.
 - This project is no longer GPL compatible.
-- Job control has been enabled in the initramfs
+- Job control has been enabled in the initramfs.
 
 1.6.3
 ---------
@@ -569,9 +569,9 @@ Minor Changes:
 ---------
 - Added support to generate a regular initramfs that just boots directly
   into a partition with a filesystem that the kernel supports.
-- Rewrote library dependency gathering algorithm
-- Added better help and switch options
-- Rewrote options passing algorithm
+- Rewrote library dependency gathering algorithm.
+- Added better help and switch options.
+- Rewrote options passing algorithm.
 - 256 COLORS !!!
 
 1.6.1
@@ -593,9 +593,9 @@ Minor Changes:
 
 1.6.0
 ---------
-- Colored output
+- Colored output.
 - Renamed most variables and changed the prefix "JV" to "_".
-- Added LUKS + ZFS support
+- Added LUKS + ZFS support.
 - New application structure. The program now uses flags in order to determine
   what features were enabled. The check/copy functions are now streamlined.
   There is also only 1 init script now and the init script also uses flags in order
@@ -609,7 +609,7 @@ Minor Changes:
   zlib_deflate into the kernel rather than as a module.
 - Dependency list is now sanitized before application copies them over to
   the initramfs. This makes IO much less since it doesn't have to copy duplicates.
-- File structured renamed/simplified
+- File structured renamed/simplified.
 
 1.5.0-r1
 ----------
@@ -625,7 +625,7 @@ Minor Changes:
   problems at boot up because without the zlib_deflate module, an user would
   get a "unknown symbol in module or invalid parameter" error for all the other
   zfs modules.
-- Added more comments, cleaned up a few comments
+- Added more comments, cleaned up a few comments.
 - The script must be ran as root in order to use depmod. The script now
   checks to see if root is the user running it.
 - If depmod cannot be ran, the script will halt.
@@ -639,5 +639,5 @@ Minor Changes:
   This will also help you if you want to quickly copy/paste the initrd file
   into the /boot directory.
 - Relicensed the application from GPLv2 to the more permissive ISC license.
-- Added a few helper functions
-- Removed the JV_DISTRO variable
+- Added a few helper functions.
+- Removed the JV_DISTRO variable.

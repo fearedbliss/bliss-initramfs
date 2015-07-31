@@ -9,7 +9,7 @@ import subprocess
 import sys
 import random
 
-# Application Info
+# Application Info.
 name = "Bliss Initramfs"
 author = "Jonathan Vasquez"
 email = "jvasquez1011@gmail.com"
@@ -17,10 +17,10 @@ contact = author + " <" + email + ">"
 version = "6.5.1"
 license = "MPL 2.0"
 
-# Locations
+# Locations.
 home = os.getcwd()
 
-# Kernel and Menu Choice
+# Kernel and Menu Choice.
 kernel = ""
 modules = ""
 lmodules = ""
@@ -35,40 +35,40 @@ temp = "/tmp/" + rstring
 # directory created. Gets deleted when program finishes successfully.
 tlink = home + "/" + rstring
 
-# Directory of Program
+# Directory of Program.
 phome = os.path.dirname(os.path.realpath(sys.argv[0]))
 
 # Files Directory
 files_dir = phome + "/files"
 
-# System Directories
+# System Directories.
 bin = "/bin"
 sbin = "/sbin"
 lib = "/lib"
 lib64 = "/lib64"
 etc = "/etc"
 
-# Paths in Temp (Local)
+# Paths in Temp (Local).
 lbin = temp + bin
 lsbin = temp + sbin
 llib = temp + lib
 llib64 = temp + lib64
 letc = temp + etc
 
-# CPU Architecture
+# CPU Architecture.
 arch = subprocess.check_output(["uname", "-m"], universal_newlines=True).strip()
 
 # Preliminary binaries needed for the success of creating the initrd
-# but that are not needed to be placed inside the initrd
+# but that are not needed to be placed inside the initrd.
 prel_bin = [
     "/bin/cpio",
     "/sbin/depmod",
 ]
 
-# Firmware directory
+# Firmware directory.
 firmwareDirectory = "/lib/firmware/"
 
-# Layout of the initramfs
+# Layout of the initramfs.
 baselayout = [
     temp + "/etc",
     temp + "/etc/bash",
@@ -88,7 +88,7 @@ baselayout = [
     temp + "/run"
 ]
 
-# Line numbers in the 'init' script where sed will substitute its values in
+# Line numbers in the 'init' script where sed will substitute its values in.
 useLuksLine = "10"
 useRaidLine = "11"
 useLvmLine = "12"

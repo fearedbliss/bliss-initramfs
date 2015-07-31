@@ -7,7 +7,7 @@
 from pkg.hooks.Hook import Hook
 
 class Raid(Hook):
-    # Required Files
+    # Required Files.
     _files = [
         "/sbin/mdadm",
     ]

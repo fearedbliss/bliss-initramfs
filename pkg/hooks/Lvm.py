@@ -9,7 +9,7 @@ import os
 from pkg.hooks.Hook import Hook
 
 class Lvm(Hook):
-    # Required Files
+    # Required Files.
     _files = [
         "/sbin/lvm",
     ]
