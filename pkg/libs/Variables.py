@@ -59,7 +59,7 @@ letc = temp + etc
 arch = subprocess.check_output(["uname", "-m"], universal_newlines=True).strip()
 
 # Preliminary binaries needed for the success of creating the initrd
-# but that are not needed to be placed inside the initrd
+# but that are not needed to be placed inside the initrd.
 prel_bin = [
     "/bin/cpio",
     "/sbin/depmod",
@@ -88,7 +88,7 @@ baselayout = [
     temp + "/run"
 ]
 
-# Line numbers in the 'init' script where sed will substitute its values in
+# Line numbers in the 'init' script where sed will substitute its values in.
 useLuksLine = "10"
 useRaidLine = "11"
 useLvmLine = "12"
