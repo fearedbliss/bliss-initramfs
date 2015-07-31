@@ -9,7 +9,7 @@ from pkg.libs.Tools import Tools
 
 class Base(Hook):
     @classmethod
-    # Returns the kmod links
+    # Returns the kmod links.
     def GetKmodLinks(cls):
         return cls._kmod_links
 

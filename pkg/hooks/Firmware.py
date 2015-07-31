@@ -15,14 +15,14 @@ class Firmware(Hook):
     # to reduce the initramfs size.
     _copy_all = 0
 
-    # A list of firmware files to include in the initramfs
+    # A list of firmware files to include in the initramfs.
     _files = [
         # Add your firmware files below
         #"iwlwifi-6000g2a-6.ucode",
         #"/yamaha/yss225_registers.bin",
     ]
 
-    # Gets the flag_all_firmware value
+    # Gets the flag_all_firmware value.
     @classmethod
     def IsCopyAllEnabled(cls):
         return cls._copy_all
