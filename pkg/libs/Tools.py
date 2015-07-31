@@ -14,7 +14,7 @@ from subprocess import call
 from subprocess import check_output
 
 class Tools(object):
-    # Checks parameters and running user
+    # Checks parameters and running user.
     @classmethod
     def ProcessArguments(cls, Addon):
         user = check_output(["whoami"], universal_newlines=True).strip()
@@ -24,14 +24,14 @@ class Tools(object):
 
         arguments = sys.argv[1:]
 
-        # Let the user directly create an initramfs if no modules are needed
+        # Let the user directly create an initramfs if no modules are needed.
         if len(arguments) == 1:
             if not Addon.GetFiles():
                 var.choice = arguments[0]
             else:
                 cls.Fail("You must pass a kernel parameter")
 
-        # If there are two parameters then we will use them, else just ignore them
+        # If there are two parameters then we will use them, else just ignore them.
         elif len(arguments) == 2:
             var.choice = arguments[0]
             var.kernel = arguments[1]
@@ -45,7 +45,7 @@ class Tools(object):
         cls.Print(cls.Colorize("yellow", "Licensed under the " + var.license))
         cls.Print(cls.Colorize("yellow", "----------------------------------") + "\n")
 
-    # Prints the available options
+    # Prints the available options.
     @classmethod
     def PrintOptions(cls):
         cls.NewLine()
@@ -62,7 +62,7 @@ class Tools(object):
         cls.Option("11. Exit Program")
         cls.NewLine()
 
-    # Finds the path to a program on the system
+    # Finds the path to a program on the system.
     @classmethod
     def GetProgramPath(cls, vProg):
         cmd = 'whereis ' + vProg + ' | cut -d " " -f 2'
@@ -73,7 +73,7 @@ class Tools(object):
         else:
             cls.Fail("The " + vProg + " program could not be found!")
 
-    # Activates the trigger in the init file
+    # Activates the trigger in the init file.
     @classmethod
     def ActivateTriggerInInit(cls, activateLine):
         call(["sed", "-i", "-e", activateLine + "s/0/1/", var.temp + "/init"])
@@ -94,14 +94,14 @@ class Tools(object):
             cls.Fail("udev was not found on the system!")
 
     # Check to see if the temporary directory exists, if it does,
-    # delete it for a fresh start
+    # delete it for a fresh start.
     @classmethod
     def Clean(cls):
         # Go back to the original working directory so that we are
         # completely sure that there will be no inteference cleaning up.
         os.chdir(var.home)
 
-        # Removes the temporary link created at the start of the app
+        # Removes the temporary link created at the start of the app.
         if os.path.exists(var.tlink):
             os.remove(var.tlink)
 
@@ -109,7 +109,7 @@ class Tools(object):
                 cls.Warn("Failed to delete the temporary link at: " + tlink + ". Exiting.")
                 quit(1)
 
-        # Removes the temporary directory
+        # Removes the temporary directory.
         if os.path.exists(var.temp):
             shutil.rmtree(var.temp)
 
@@ -117,14 +117,14 @@ class Tools(object):
                 cls.Warn("Failed to delete the " + var.temp + " directory. Exiting.")
                 quit(1)
 
-    # Clean up and exit after a successful build
+    # Clean up and exit after a successful build.
     @classmethod
     def CleanAndExit(cls, vInitrd):
         cls.Clean()
         cls.Info("Please copy \"" + vInitrd + "\" to your " + "/boot directory")
         quit()
 
-    # Intelligently copies the file into the initramfs
+    # Intelligently copies the file into the initramfs.
     @classmethod
     def Copy(cls, vFile, **optionalArgs):
         # NOTE: shutil.copy will dereference all symlinks before copying.
@@ -159,11 +159,11 @@ class Tools(object):
             elif os.path.isdir(targetFile):
                 os.makedirs(path)
 
-        # Finally lets make sure that the file was copied to its destination
+        # Finally lets make sure that the file was copied to its destination.
         if not os.path.isfile(path):
             cls.Fail("Unable to copy " + targetFile + " to " + path + "!")
 
-    # Copies a file to a target path and checks to see that it exists
+    # Copies a file to a target path and checks to see that it exists.
     @classmethod
     def SafeCopy(cls, sourceFile, targetDest, *desiredName):
         if len(desiredName) == 0:
@@ -191,7 +191,7 @@ class Tools(object):
 
     ####### Message Functions #######
 
-    # Returns the string with a color to be used in bash
+    # Returns the string with a color to be used in bash.
     @classmethod
     def Colorize(cls, vColor, vMessage):
         if vColor == "red":
@@ -209,37 +209,37 @@ class Tools(object):
 
         return colored_message
 
-    # Prints a message through the shell
+    # Prints a message through the shell.
     @classmethod
     def Print(cls, vMessage):
         call(["echo", "-e", vMessage])
 
-    # Used for displaying information
+    # Used for displaying information.
     @classmethod
     def Info(cls, vMessage):
         call(["echo", "-e", cls.Colorize("green", "[*] ") + vMessage])
 
-    # Used for input (questions)
+    # Used for input (questions).
     @classmethod
     def Question(cls, vQuestion):
         return input(vQuestion)
 
-    # Used for warnings
+    # Used for warnings.
     @classmethod
     def Warn(cls, vMessage):
         call(["echo", "-e", cls.Colorize("yellow", "[!] ") + vMessage])
 
-    # Used for flags (aka using zfs, luks, etc)
+    # Used for flags (aka using zfs, luks, etc).
     @classmethod
     def Flag(cls, vFlag):
         call(["echo", "-e", cls.Colorize("purple", "[+] ") + vFlag])
 
-    # Used for options
+    # Used for options.
     @classmethod
     def Option(cls, vOption):
         call(["echo", "-e", cls.Colorize("cyan", "[>] ") + vOption])
 
-    # Used for errors
+    # Used for errors.
     @classmethod
     def Fail(cls, vMessage):
         cls.Print(cls.Colorize("red", "[#] ") + vMessage)
@@ -247,17 +247,17 @@ class Tools(object):
         cls.Clean()
         quit(1)
 
-    # Prints empty line
+    # Prints empty line.
     @classmethod
     def NewLine(cls):
         print("")
 
-    # Error Function: Binary doesn't exist
+    # Error Function: Binary doesn't exist.
     @classmethod
     def BinaryDoesntExist(cls, vMessage):
         cls.Fail("Binary: " + vMessage + " doesn't exist. Exiting.")
 
-    # Error Function: Module doesn't exist
+    # Error Function: Module doesn't exist.
     @classmethod
     def ModuleDoesntExist(cls, vMessage):
         cls.Fail("Module: " + vMessage + " doesn't exist. Exiting.")
