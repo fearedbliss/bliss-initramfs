@@ -43,6 +43,7 @@ modules = ""
 lmodules = ""
 initrd = "initrd"
 features = ""
+cmpalgos = ""
 
 rstring = str(random.randint(100000000, 999999999))
 

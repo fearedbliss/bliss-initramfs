@@ -180,6 +180,9 @@ ParseKernelParameters()
         enc_tries=*)
             _enc_tries=$(ParseOption "${param}")
             ;;
+	    resume=*)
+	        _resume=$(RetrieveDriveValue "${param}")
+            ;;
         init=*)
             _init=$(ParseOption "${param}")
             ;;
@@ -610,6 +613,16 @@ DecryptDrives()
     done
     
     unset tempTargets
+
+	CheckDecryptedSwap
+}
+
+# Check swap device to resume after hibernate
+CheckDecryptedSwap()
+{
+	Info "Checking Swap device..."
+
+	resume ${_resume}
 }
 
 # If "use_raid" is enabled, raid specific code will be ran

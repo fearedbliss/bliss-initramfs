@@ -39,6 +39,13 @@ class Tools:
         4: "LUKS",
         5: "Basic"
     }
+    
+    # Available Compress Algos
+    _algos = {
+        1: "GZIP",
+        2: "LZ4",
+        3: "XZ"
+    }
 
     # Checks parameters and running user
     @classmethod
@@ -78,6 +85,18 @@ class Tools:
 
         for feature in cls._features:
             cls.Option(str(feature) + ". " + cls._features[feature])
+
+        cls.NewLine()
+
+    # Prints the compress algos
+    @classmethod
+    def PrintCompressAlgos(cls):
+        cls.NewLine()
+        print("Which initramfs compress algorithm do you want? (You can choose only one):")
+        cls.NewLine()
+
+        for algo in cls._algos:
+            cls.Option(str(algo) + ". " + cls._algos[algo])
 
         cls.NewLine()
 
