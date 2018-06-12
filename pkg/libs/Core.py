@@ -85,9 +85,9 @@ class Core:
                 Raid.Enable()
             elif feature == "luks":
                 Luks.Enable()
-            # Just a base initramfs with no additional stuff
-            # This can be used with other options though
-            # (i.e you have your rootfs directly on top of LUKS)
+                # Just a base initramfs with no additional stuff
+                # This can be used with other options though
+                # (i.e you have your rootfs directly on top of LUKS)
             elif feature == "basic":
                 pass
             else:
@@ -131,8 +131,8 @@ class Core:
 
                 if not var.kernel:
                     Tools.Fail("You didn't enter a kernel. Exiting...")
-            else:
-                Tools.Fail("Invalid Option. Exiting.")
+                else:
+                    Tools.Fail("Invalid Option. Exiting.")
 
         # Set modules path to correct location and sets kernel name for initramfs
         var.modules = "/lib/modules/" + var.kernel + "/"
@@ -451,9 +451,40 @@ class Core:
         # If we've reached this point, we have failed to copy the gcc library.
         Tools.Fail("Unable to retrieve gcc library path!")
 
+    # Choose compress algo
+    @classmethod
+    def CompressAlgo(cls,vAlgo):
+        # If the user didn't pass their desired compress algos through the command
+        # line, we will use gzip by default.
+        if not var.cmpalgos:
+            var.cmpalgos = vAlgo
+
+            if var.cmpalgos:
+                var.cmpalgos = Tools._algos[int(var.cmpalgos)].lower()
+            else:
+                var.cmpalgos = "gzip"
+
+            Tools.NewLine()
+
+        if var.cmpalgos == "gzip":
+            compress_cmd = 'gzip -9'
+        elif var.cmpalgos == "lz4":
+            compress_cmd = 'lz4 -lz'
+        elif var.cmpalgos == "xz":
+            compress_cmd = 'xz -z9e -C crc32'
+        else:
+            Tools.Warn("Exiting.")
+            quit(1)
+
+        return compress_cmd
+
     # Create the initramfs
     @classmethod
     def CreateInitramfs(cls):
+
+        Tools.PrintCompressAlgos()
+        cmp_cmd = cls.CompressAlgo(Tools.Question("Algorithm [1]: "))
+
         Tools.Info("Creating the initramfs ...")
 
         # The find command must use the `find .` and not `find ${T}`
@@ -461,7 +492,7 @@ class Core:
         # the ${T} path.
         os.chdir(var.temp)
 
-        call(["find . -print0 | cpio -o --null --format=newc | gzip -9 > " + var.home + "/" + var.initrd], shell=True)
+        call(["find . -print0 | cpio -o --null --format=newc | " + cmp_cmd + " > " + var.home + "/" + var.initrd], shell=True)
 
         if not os.path.isfile(var.home + "/" + var.initrd):
             Tools.Fail("Error creating the initramfs. Exiting.")
