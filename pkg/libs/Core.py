@@ -523,6 +523,23 @@ class Core:
         # Build the list of module dependencies
         Tools.Info("Copying modules ...")
 
+        # Check if zfs is inlined into the kernel
+        if "zfs" in Modules.GetFiles():
+            if var.kernel:
+                try:
+                    cmd = (
+                        "grep -q ^CONFIG_ZFS=y$ /usr/src/linux-"
+                        + var.kernel
+                        + "/.config"
+                    )
+                    check_output(cmd, universal_newlines=True, shell=True)
+                    Tools.Info(
+                        "ZFS is inlined in your kernel - no ZFS module being used!"
+                    )
+                    Modules.RemoveFile("zfs")
+                except CalledProcessError:
+                    pass
+
         # Checks to see if all the modules in the list exist (if any)
         for file in Modules.GetFiles():
             try:
