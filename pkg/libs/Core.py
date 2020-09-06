@@ -329,7 +329,7 @@ class Core:
         tempUdevDirectory = var.temp + udevDirectory
 
         if os.path.isdir(udevDirectory):
-            shutil.copytree(udevDirectory, tempUdevDirectory)
+            call(["cp", "-r", udevDirectory, tempUdevDirectory])
 
         if udevExcludedFiles:
             for udevFile in udevExcludedFiles:
@@ -405,7 +405,7 @@ class Core:
 
         # Copy all of the modprobe configurations
         if os.path.isdir(var.modprobeDirectory):
-            shutil.copytree(var.modprobeDirectory, var.temp + var.modprobeDirectory)
+            call(["cp", "-r" , var.modprobeDirectory, var.temp + var.modprobeDirectory])
 
         cls.CopyUdevAndSupportFiles()
         cls.DumpSystemKeymap()
