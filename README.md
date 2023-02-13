@@ -1,6 +1,7 @@
-## Bliss Initramfs 9.4.0
+## Bliss Initramfs 9.4.1
 #### Jonathan Vasquez (fearedbliss)
 #### Designed for Gentoo Linux
+#### Maintained by Ian Silvester (dr-diem)
 
 ## Description
 
