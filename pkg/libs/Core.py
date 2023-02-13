@@ -197,9 +197,10 @@ class Core:
         """Generates the modprobe information."""
         Tools.Info("Generating modprobe information ...")
 
-        # Copy modules.order and modules.builtin just so depmod doesn't spit out warnings. -_-
+        # Copy module info reference files just so depmod doesn't spit out warnings. -_-
         Tools.Into(var.modules + "/modules.order")
         Tools.Into(var.modules + "/modules.builtin")
+        Tools.Into(var.modules + "/modules.builtin.modinfo")
 
         result = call(["depmod", "-b", var.temp, var.kernel])
 
